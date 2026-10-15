@@ -1,6 +1,6 @@
 # Customer-Onboarding
 
-Customer onboarding for a demo bank (Harbourline Bank): a web page to capture customer details and a local MCP server that stores them.
+Bank customer onboarding details. Customer onboarding for a demo bank (Harbourline Bank): a web page to capture customer details and a local MCP server that stores them.
 
 ## What's here
 
