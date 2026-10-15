@@ -1,0 +1,13 @@
+{
+  "name": "customer-mcp",
+  "version": "1.0.0",
+  "description": "Local MCP server that stores bank customer details (name, phone, address) in a JSON file",
+  "type": "module",
+  "main": "server.js",
+  "bin": { "customer-mcp": "server.js" },
+  "scripts": { "start": "node server.js" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.17.3",
+    "zod": "3.25.76"
+  }
+}

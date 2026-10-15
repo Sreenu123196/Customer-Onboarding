@@ -1,0 +1,288 @@
+<title>Harbourline Customer Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: split landing — welcome message left, customer form right; saved-customers register full width below */
+:root{
+  --bg:#eef3f2; --surface:#ffffff; --line:#d6dfdd; --fg:#14201e; --muted:#5a6a67;
+  --accent:#0d5c55; --accent-soft:#dcecea; --good:#1d7a46; --good-bg:#e3f3e9; --bad:#b3261e; --bad-bg:#fbe5e3;
+  --font-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --font-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1514; --surface:#18201f; --line:#2a3533; --fg:#e6ecea; --muted:#97a6a2;
+  --accent:#5cc2b4; --accent-soft:#1d3532; --good:#6fd39a; --good-bg:#16301f; --bad:#f08a80; --bad-bg:#3d1a17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1514; --surface:#18201f; --line:#2a3533; --fg:#e6ecea; --muted:#97a6a2;
+  --accent:#5cc2b4; --accent-soft:#1d3532; --good:#6fd39a; --good-bg:#16301f; --bad:#f08a80; --bad-bg:#3d1a17; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.55;padding:0 16px 48px}
+.wrap{max-width:1100px;margin:0 auto}
+nav{display:flex;justify-content:space-between;align-items:center;padding-block:20px;gap:12px;flex-wrap:wrap}
+.brand{font-family:var(--font-display);font-weight:700;font-size:20px;display:flex;align-items:center;gap:10px}
+.mark{width:30px;height:30px;border-radius:8px;background:var(--accent);display:grid;place-items:center}
+.mark svg{display:block}
+nav .links{display:flex;gap:18px;color:var(--muted);font-size:14px}
+
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:start;padding-block:32px}
+.intro{display:flex;flex-direction:column;gap:18px;padding-top:12px}
+.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--accent)}
+h1{font-family:var(--font-display);font-size:clamp(32px,5vw,48px);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.02em}
+.intro p{margin:0;color:var(--muted);max-width:44ch;font-size:16px}
+.points{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.points li{display:flex;gap:10px;align-items:flex-start}
+.tick{flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:2px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.panel h2{font-family:var(--font-display);font-size:22px;margin:0}
+.panel .hint{margin:-12px 0 0;color:var(--muted);font-size:14px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+label{font-size:13px;font-weight:600}
+input,textarea{font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:100%}
+textarea{resize:vertical;min-height:72px}
+input:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.phone{display:flex}
+.phone span{padding:10px 12px;border:1px solid var(--line);border-right:0;border-radius:8px 0 0 8px;background:var(--accent-soft);color:var(--accent);font-weight:600}
+.phone input{border-radius:0 8px 8px 0}
+.err{font-size:12px;color:var(--bad)}
+.field.invalid input,.field.invalid textarea{border-color:var(--bad)}
+.btns{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-weight:600;font-size:15px;padding:11px 18px;border-radius:8px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+button:disabled{opacity:.55;cursor:not-allowed}
+.status{font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px}
+.status.ok{background:var(--good-bg);color:var(--good)}
+.status.no{background:var(--bad-bg);color:var(--bad)}
+.banner{font-size:13px;padding:10px 12px;border-radius:8px;background:var(--accent-soft);color:var(--fg)}
+
+/* register */
+.register{margin-top:8px}
+.reg-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.count{color:var(--muted);font-size:14px;font-weight:400;font-family:var(--font-body)}
+.reg-head input{max-width:260px}
+.tbl{overflow-x:auto;margin:0 -24px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;padding:10px 24px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 24px;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+td.nm{font-weight:600;white-space:nowrap}
+td.ph,td.dt{white-space:nowrap}
+td.ad{min-width:220px}
+.sub{display:block;font-size:12px;color:var(--muted);font-weight:400}
+.rowbtn{font-size:13px;padding:5px 10px}
+.rowbtn.danger{color:var(--bad);border-color:var(--bad)}
+.acts{display:flex;gap:6px;white-space:nowrap}
+.empty{padding:28px 24px;color:var(--muted);text-align:center}
+
+footer{border-top:1px solid var(--line);padding-top:18px;margin-top:24px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:820px){ .hero{grid-template-columns:minmax(0,1fr);gap:28px;padding-block:12px} nav .links{display:none} }
+@media (max-width:480px){ form{grid-template-columns:1fr} .panel{padding:18px} .tbl{margin:0 -18px} th,td{padding-inline:18px} .reg-head input{max-width:none} }
+</style>
+
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="mark"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1 15 5H1z M2 6h2v6H2z M7 6h2v6H7z M12 6h2v6h-2z M1 13h14v2H1z" fill="#ffffff"/></svg></span>Harbourline Bank</div>
+    <div class="links"><span>Accounts</span><span>Loans</span><span>Cards</span><span>Support</span></div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <div class="intro">
+        <span class="eyebrow">Customer onboarding</span>
+        <h1>Tell us who you are. We'll set up the rest.</h1>
+        <p>Enter the customer's name, mobile number and address. Saved customers are stored in the bank's records and appear in the register below.</p>
+        <ul class="points">
+          <li><span class="tick">✓</span><span>Mobile number receives OTPs and transaction alerts</span></li>
+          <li><span class="tick">✓</span><span>Address is printed on statements and cheque books</span></li>
+          <li><span class="tick">✓</span><span>Details can be edited any time from the register</span></li>
+        </ul>
+      </div>
+
+      <section class="panel" aria-labelledby="form-title">
+        <h2 id="form-title">Customer details</h2>
+        <p class="hint" id="form-hint">Fields marked * are required.</p>
+        <div class="banner" id="offline" hidden>Connecting to the customer database…</div>
+        <form id="cust-form" novalidate>
+          <div class="field full">
+            <label for="c-name">Full name *</label>
+            <input id="c-name" name="name" autocomplete="name" placeholder="As on PAN card">
+            <span class="err" id="e-name"></span>
+          </div>
+          <div class="field">
+            <label for="c-phone">Mobile number *</label>
+            <div class="phone"><span>+91</span><input id="c-phone" name="phone" inputmode="numeric" maxlength="10" autocomplete="tel-national" placeholder="10-digit number"></div>
+            <span class="err" id="e-phone"></span>
+          </div>
+          <div class="field">
+            <label for="c-email">Email</label>
+            <input id="c-email" name="email" type="email" autocomplete="email" placeholder="name@example.com">
+            <span class="err" id="e-email"></span>
+          </div>
+          <div class="field full">
+            <label for="c-addr">Address *</label>
+            <textarea id="c-addr" name="addr" autocomplete="street-address" placeholder="House no., street, area"></textarea>
+            <span class="err" id="e-addr"></span>
+          </div>
+          <div class="field">
+            <label for="c-city">City *</label>
+            <input id="c-city" name="city" autocomplete="address-level2">
+            <span class="err" id="e-city"></span>
+          </div>
+          <div class="field">
+            <label for="c-pin">PIN code *</label>
+            <input id="c-pin" name="pin" inputmode="numeric" maxlength="6" autocomplete="postal-code" placeholder="6 digits">
+            <span class="err" id="e-pin"></span>
+          </div>
+          <div class="btns">
+            <button class="primary" type="submit" id="save-btn" disabled>Save customer</button>
+            <button type="reset" id="reset-btn">Clear</button>
+            <span class="status" id="save-status" role="status" hidden></span>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section class="panel register" aria-labelledby="reg-title">
+      <div class="reg-head">
+        <h2 id="reg-title">Saved customers <span class="count" id="count"></span></h2>
+        <input id="search" type="search" placeholder="Search name, phone or city" aria-label="Search saved customers">
+      </div>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Name</th><th>Mobile</th><th>Address</th><th>Saved</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="5" class="empty">Loading saved customers…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>Harbourline Bank · demo customer register</span><span>Customer care: 1800 000 0000</span></footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const f = $("cust-form"), saveBtn = $("save-btn"), statusEl = $("save-status"), rowsEl = $("rows");
+const FIELDS = ["name","phone","email","addr","city","pin"];
+const rules = {
+  name:  v => v.length >= 2 || "Enter the customer's full name.",
+  phone: v => /^[6-9]\d{9}$/.test(v) || "Enter a 10-digit mobile number starting with 6, 7, 8 or 9.",
+  email: v => !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || "Enter an email like name@example.com, or leave it blank.",
+  addr:  v => v.length >= 5 || "Enter the house number and street.",
+  city:  v => v.length >= 2 || "Enter the city.",
+  pin:   v => /^[1-9]\d{5}$/.test(v) || "Enter a 6-digit PIN code.",
+};
+$("c-phone").addEventListener("input", e => e.target.value = e.target.value.replace(/\D/g, ""));
+$("c-pin").addEventListener("input", e => e.target.value = e.target.value.replace(/\D/g, ""));
+
+let db = null, customers = [], editingId = null, confirmId = null, canWrite = true;
+
+function showStatus(msg, ok){ statusEl.textContent = msg; statusEl.className = "status " + (ok ? "ok" : "no"); statusEl.hidden = false; }
+const fmtPhone = p => "+91 " + p.slice(0,5) + " " + p.slice(5);
+const fmtDate = ms => new Date(ms).toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function render(){
+  const q = $("search").value.trim().toLowerCase();
+  const list = customers.filter(c => !q || [c.name,c.phone,c.city].join(" ").toLowerCase().includes(q));
+  $("count").textContent = customers.length ? `· ${customers.length}` : "";
+  if (!customers.length){ rowsEl.innerHTML = `<tr><td colspan="5" class="empty">No customers saved yet. Fill in the form above and press Save customer.</td></tr>`; return; }
+  if (!list.length){ rowsEl.innerHTML = `<tr><td colspan="5" class="empty">No saved customer matches “${esc(q)}”.</td></tr>`; return; }
+  rowsEl.innerHTML = list.map(c => `<tr>
+    <td class="nm">${esc(c.name)}<span class="sub">${esc(c.email || "No email")}</span></td>
+    <td class="ph">${esc(fmtPhone(c.phone))}</td>
+    <td class="ad">${esc(c.addr)}<span class="sub">${esc(c.city)} ${esc(c.pin)}</span></td>
+    <td class="dt">${esc(fmtDate(c.updatedAt || c.createdAt))}</td>
+    <td>${canWrite ? `<div class="acts">${confirmId === c.id
+        ? `<button class="rowbtn danger" data-act="del" data-id="${esc(c.id)}">Confirm delete</button><button class="rowbtn" data-act="cancel">Keep</button>`
+        : `<button class="rowbtn" data-act="edit" data-id="${esc(c.id)}">Edit</button><button class="rowbtn" data-act="ask" data-id="${esc(c.id)}">Delete</button>`}</div>` : ""}</td>
+  </tr>`).join("");
+}
+$("search").addEventListener("input", render);
+
+rowsEl.addEventListener("click", async e => {
+  const b = e.target.closest("button"); if (!b) return;
+  const id = b.dataset.id, act = b.dataset.act;
+  if (act === "ask"){ confirmId = id; render(); }
+  else if (act === "cancel"){ confirmId = null; render(); }
+  else if (act === "del"){
+    b.disabled = true;
+    try { await db.collection("customers").doc(id).delete(); confirmId = null; if (editingId === id) resetForm(); showStatus("Customer deleted", true); }
+    catch(err){ showStatus("Could not delete. Try again.", false); b.disabled = false; }
+  }
+  else if (act === "edit"){
+    const c = customers.find(x => x.id === id); if (!c) return;
+    FIELDS.forEach(k => $("c-" + k).value = c[k] || "");
+    editingId = id; saveBtn.textContent = "Update customer"; $("form-title").textContent = "Edit customer";
+    statusEl.hidden = true; $("form-title").scrollIntoView({behavior:"smooth",block:"start"}); $("c-name").focus({preventScroll:true});
+  }
+});
+
+function clearErrors(){
+  document.querySelectorAll(".err").forEach(el => el.textContent = "");
+  document.querySelectorAll(".field.invalid").forEach(el => el.classList.remove("invalid"));
+}
+function resetForm(){ f.reset(); }
+f.addEventListener("reset", () => {
+  clearErrors(); editingId = null; saveBtn.textContent = "Save customer"; $("form-title").textContent = "Customer details";
+});
+
+f.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!db) return;
+  const d = {}; let first = null;
+  FIELDS.forEach(k => {
+    d[k] = $("c-" + k).value.trim();
+    const r = rules[k](d[k]), field = $("c-" + k).closest(".field");
+    $("e-" + k).textContent = r === true ? "" : r;
+    field.classList.toggle("invalid", r !== true);
+    if (r !== true && !first) first = $("c-" + k);
+  });
+  if (first){ first.focus(); return; }
+  saveBtn.disabled = true; statusEl.hidden = true;
+  try {
+    const now = Date.now();
+    if (editingId){
+      await db.collection("customers").doc(editingId).update({...d, updatedAt: now});
+      showStatus("Customer updated", true);
+    } else {
+      await db.collection("customers").add({...d, createdAt: now, updatedAt: now});
+      showStatus("Customer saved", true);
+    }
+    resetForm();
+  } catch(err){
+    if (err && err.code === "invalid_argument" && !editingId){ canWrite = false; lockForm("You have view-only access, so you can't add customers."); render(); }
+    else if (err && err.code === "quota_exceeded") showStatus("The customer database is full. Delete old customers to add new ones.", false);
+    else showStatus("Could not save. Check your connection and try again.", false);
+  } finally { if (canWrite) saveBtn.disabled = false; }
+});
+
+function lockForm(msg){
+  canWrite = false; saveBtn.disabled = true;
+  f.querySelectorAll("input,textarea,button").forEach(el => el.disabled = true);
+  $("offline").textContent = msg; $("offline").hidden = false;
+}
+
+(async () => {
+  $("offline").hidden = false;
+  try { db = window.claude ? await window.claude.use("db") : null; } catch { db = null; }
+  if (!db){
+    lockForm("The customer database isn't available here. Open this page on claude.ai while signed in to save customers.");
+    rowsEl.innerHTML = `<tr><td colspan="5" class="empty">Saved customers appear here once the database is connected.</td></tr>`;
+    return;
+  }
+  try {
+    const user = await window.claude.use("user");
+    const w = user ? await user.can("data.write") : null;
+    if (w === false){ lockForm("You have view-only access, so you can read saved customers but not add or change them."); }
+  } catch {}
+  if (canWrite){ $("offline").hidden = true; saveBtn.disabled = false; }
+  db.collection("customers").orderBy("createdAt","desc").onSnapshot(
+    snap => { customers = snap.docs.map(d => ({id: d.id, ...d.data()})); render(); },
+    () => { rowsEl.innerHTML = `<tr><td colspan="5" class="empty">Saved customers could not be loaded. Reload the page to try again.</td></tr>`; }
+  );
+})();
+</script>

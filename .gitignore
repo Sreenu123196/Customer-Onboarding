@@ -1,0 +1,5 @@
+node_modules/
+# Customer records saved by the MCP server stay on this computer
+customer-mcp/data/
+*.tmp
+.env
