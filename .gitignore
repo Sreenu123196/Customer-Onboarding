@@ -3,3 +3,8 @@ node_modules/
 customer-mcp/data/
 *.tmp
 .env
+
+# Netlify
+.netlify/
+# Access code for the live site (kept off GitHub)
+ACCESS_CODE.txt
